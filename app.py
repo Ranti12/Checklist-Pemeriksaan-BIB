@@ -8,6 +8,7 @@ Original file is located at
 """
 
 !pip install streamlit
+!streamlit run app.py
 
 import streamlit as st
 import pandas as pd
@@ -271,10 +272,10 @@ if submitted:
         col_hasil = st.columns([1, 3, 1])
         with col_hasil[1]:
             if item_baik == total_item:
-                st.success("## ✅ LAIK JALAN")
+                st.success("## ✅ LAYAK JALAN")
                 st.info("Semua komponen dalam kondisi baik. Kendaraan siap digunakan.")
             else:
-                st.error("## ❌ TIDAK LAIK JALAN")
+                st.error("## ❌ TIDAK LAYAK JALAN")
                 st.warning("Perlu perbaikan pada:")
                 for item in item_rusak:
                     st.markdown(f"• {item}")
