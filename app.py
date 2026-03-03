@@ -451,7 +451,7 @@ if submitted:
         # Parameter: nama sheet (biasanya "Sheet1")
         params = {"tabId": "Sheet1"}
 
-        # Siapkan data dalam format LIST (biar cocok sama contoh)
+        # Siapkan data dalam format LIST
         data_kirim = [[
             datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
             nama,
@@ -480,21 +480,8 @@ if submitted:
             'LAYAK JALAN' if item_baik == total_item else 'TIDAK LAYAK JALAN'
         ]]
 
-        try:
-            # Kirim ke NoCodeAPI
-            response = requests.post(url=url, params=params, json=data_kirim)
-
-            # Cek hasil
-            if response.status_code == 200:
-                st.success("✅ Data berhasil disimpan ke Google Sheets!")
-                # Bisa lihat response dari NoCodeAPI
-                st.write("Response:", response.json())
-            else:
-                st.error(f"Gagal: {response.status_code}")
-                st.write(response.text)
-
-        except Exception as e:
-            st.error(f"Error: {e}")
+        # Kirim data
+        response = requests.post(url=url, params=params, json=data_kirim)
 
         # Tampilkan hasil
         st.markdown("---")
