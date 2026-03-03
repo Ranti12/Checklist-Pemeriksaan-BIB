@@ -446,7 +446,7 @@ if submitted:
         st.session_state.tanggal = tanggal
 
         # Konfigurasi API Google Sheet
-        url = "https://v1.nocodeapi.com/ranti123/google_sheets/YsShtvKdiSgE"
+        url = "https://v1.nocodeapi.com/ranti123/google_sheets/YsShtvKdiSgBnXDb"
 
         # Parameter: nama sheet (biasanya "Sheet1")
         params = {"tabId": "Sheet1"}
