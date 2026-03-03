@@ -9,6 +9,7 @@ Original file is located at
 
 import streamlit as st
 import pandas as pd
+import requests
 from datetime import datetime
 
 # Konfigurasi halaman
@@ -177,6 +178,114 @@ with st.form("form_checklist"):
 
     st.markdown('</div>', unsafe_allow_html=True)
 
+    # E. Kondisi Mesin
+    st.markdown('<p class="section-header">E. Kondisi Mesin</p>', unsafe_allow_html=True)
+    st.markdown('<div class="kategori-card">', unsafe_allow_html=True)
+
+    radiator = st.radio(
+        "1. Air Radiator",
+        options=["Ya, Ada", "Tidak Ada"],
+        index=None,
+        horizontal=True,
+        key="radiator"
+    )
+
+    air_wiper = st.radio(
+        "2. Air Wiper",
+        options=["Ya, Ada", "Tidak Ada"],
+        index=None,
+        horizontal=True,
+        key="air_wiper"
+    )
+
+    check_engine = st.radio(
+        "3. Lampu Check Engine",
+        options=["Mati", "Menyala"],
+        index=None,
+        horizontal=True,
+        key="check_engine"
+    )
+
+    ac = st.radio(
+        "4. AC/Pendingin Udara",
+        options=["Berfungsi", "Tidak Berfungsi"],
+        index=None,
+        horizontal=True,
+        key="ac"
+    )
+
+    pedal = st.radio(
+        "5. Pedal gas, rem, dan kopling",
+        options=["Responsif", "Tidak Responsif"],
+        index=None,
+        horizontal=True,
+        key="pedal"
+    )
+
+    st.markdown('</div>', unsafe_allow_html=True)
+
+    # F. Kondisi Luar Kendaraan
+    st.markdown('<p class="section-header">F. Kondisi Luar Kendaraan</p>', unsafe_allow_html=True)
+    st.markdown('<div class="kategori-card">', unsafe_allow_html=True)
+
+    lampu_depan = st.radio(
+        "1. Lampu Depan",
+        options=["Menyala", "Mati"],
+        index=None,
+        horizontal=True,
+        key="lampu_depan"
+    )
+
+    lampu_kota = st.radio(
+        "2. Lampu Kota",
+        options=["Menyala", "Mati"],
+        index=None,
+        horizontal=True,
+        key="lampu_kota"
+    )
+
+    lampu_rem = st.radio(
+        "3. Lampu rem",
+        options=["Menyala", "Mati"],
+        index=None,
+        horizontal=True,
+        key="lampu_rem"
+    )
+
+    lampu_sein = st.radio(
+        "4. Lampu Sein",
+        options=["Menyala", "Mati"],
+        index=None,
+        horizontal=True,
+        key="lampu_sein"
+    )
+
+    klakson = st.radio(
+        "5. Klakson",
+        options=["Berbunyi", "Tidak Berbunyi"],
+        index=None,
+        horizontal=True,
+        key="klakson"
+    )
+
+    wiper = st.radio(
+        "6. Wiper",
+        options=["Berfungsi", "Tidak Berfungsi"],
+        index=None,
+        horizontal=True,
+        key="wiper"
+    )
+
+    sabuk_pengaman = st.radio(
+        "7. Kondisi Sabuk Pengaman",
+        options=["Baik", "Rusak"],
+        index=None,
+        horizontal=True,
+        key="sabuk_pengaman"
+    )
+
+    st.markdown('</div>', unsafe_allow_html=True)
+
     st.markdown("---")
 
     # Tombol Submit
@@ -197,16 +306,28 @@ if submitted:
         kotak_p3k is not None,
         segitiga is not None,
         oli is not None,
-        toolkit is not None
+        toolkit is not None,
+        radiator is not None,
+        air_wiper is not None,
+        check_engine is not None,
+        ac is not None,
+        pedal is not None,
+        lampu_depan is not None,
+        lampu_kota is not None,
+        lampu_rem is not None,
+        lampu_sein is not None,
+        klakson is not None,
+        wiper is not None,
+        sabuk_pengaman is not None
     ])
 
     if semua_terisi:
         # Hitung kelayakan
-        total_item = 9  # total item yang dicek
+        total_item = 21
         item_baik = 0
         item_rusak = []
 
-        # Cek B. Kelengkapan Surat (4 item)
+        # Cek B. Kelengkapan Surat
         if stnk == "Ya, Ada":
             item_baik += 1
         else:
@@ -254,6 +375,68 @@ if submitted:
         else:
             item_rusak.append("Toolkit")
 
+        # Cek E. Kondisi Mesin (5 item)
+        if radiator == "Ya, Ada":
+            item_baik += 1
+        else:
+            item_rusak.append("Air Radiator")
+
+        if air_wiper == "Ya, Ada":
+            item_baik += 1
+        else:
+            item_rusak.append("Air Wiper")
+
+        if check_engine == "Mati":
+            item_baik += 1
+        else:
+            item_rusak.append("Lampu Check Engine")
+
+        if ac == "Berfungsi":
+            item_baik += 1
+        else:
+            item_rusak.append("AC/Pendingin Udara")
+
+        if pedal == "Responsif":
+            item_baik += 1
+        else:
+            item_rusak.append("Pedal Gas, Rem, dan Kopling")
+
+        # Cek F. Kondisi Luar Kendaraan (7 item)
+        if lampu_depan == "Menyala":
+            item_baik += 1
+        else:
+            item_rusak.append("Lampu Depan")
+
+        if lampu_kota == "Menyala":
+            item_baik += 1
+        else:
+            item_rusak.append("Lampu Kota")
+
+        if lampu_rem == "Menyala":
+            item_baik += 1
+        else:
+            item_rusak.append("Lampu Rem")
+
+        if lampu_sein == "Menyala":
+            item_baik += 1
+        else:
+            item_rusak.append("Lampu Sein")
+
+        if klakson == "Berbunyi":
+            item_baik += 1
+        else:
+            item_rusak.append("Klakson")
+
+        if wiper == "Berfungsi":
+            item_baik += 1
+        else:
+            item_rusak.append("Wiper")
+
+        if sabuk_pengaman == "Baik":
+            item_baik += 1
+        else:
+            item_rusak.append("Sabuk Pengaman")
+
         # Simpan ke session state
         st.session_state.form_submitted = True
         st.session_state.item_baik = item_baik
@@ -262,9 +445,60 @@ if submitted:
         st.session_state.nama = nama
         st.session_state.tanggal = tanggal
 
+        # Konfigurasi API Google Sheet
+        url = "https://v1.nocodeapi.com/ranti123/google_sheets/YsShtvKdiSgE"
+
+        # Parameter: nama sheet (biasanya "Sheet1")
+        params = {"tabId": "Sheet1"}
+
+        # Siapkan data dalam format LIST (biar cocok sama contoh)
+        data_kirim = [[
+            datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+            nama,
+            tanggal.strftime('%Y-%m-%d'),
+            stnk,
+            sim,
+            asuransi,
+            surat_jalan,
+            ban_cadangan,
+            kotak_p3k,
+            segitiga,
+            oli,
+            toolkit,
+            radiator,
+            air_wiper,
+            check_engine,
+            ac,
+            pedal,
+            lampu_depan,
+            lampu_kota,
+            lampu_rem,
+            lampu_sein,
+            klakson,
+            wiper,
+            sabuk_pengaman,
+            'LAYAK JALAN' if item_baik == total_item else 'TIDAK LAYAK JALAN'
+        ]]
+
+        try:
+            # Kirim ke NoCodeAPI
+            response = requests.post(url=url, params=params, json=data_kirim)
+
+            # Cek hasil
+            if response.status_code == 200:
+                st.success("✅ Data berhasil disimpan ke Google Sheets!")
+                # Bisa lihat response dari NoCodeAPI
+                st.write("Response:", response.json())
+            else:
+                st.error(f"Gagal: {response.status_code}")
+                st.write(response.text)
+
+        except Exception as e:
+            st.error(f"Error: {e}")
+
         # Tampilkan hasil
         st.markdown("---")
-        st.markdown('<p class="section-header">E. Hasil Pemeriksaan</p>', unsafe_allow_html=True)
+        st.markdown('<p class="section-header">G. Hasil Pemeriksaan</p>', unsafe_allow_html=True)
 
         col_hasil = st.columns([1, 3, 1])
         with col_hasil[1]:
@@ -280,16 +514,20 @@ if submitted:
         # Tampilkan detail pemeriksaan
         with st.expander("Lihat Detail Pemeriksaan"):
             data_detail = {
-                "Kategori": ["Kelengkapan Surat"]*4 + ["Keselamatan"]*3 + ["BIB"]*2,
+                "Kategori": ["Kelengkapan Surat"]*4 + ["Keselamatan"]*3 + ["BIB"]*2 + ["Kondisi Mesin"]*5 + ["Kondisi Luar"]*7,
                 "Komponen": [
                     "STNK", "SIM", "Asuransi", "Surat Jalan",
                     "Ban Cadangan", "Kotak P3K", "Segitiga",
-                    "Oli Mesin", "Toolkit"
+                    "Oli Mesin", "Toolkit",
+                    "Air Radiator", "Air Wiper", "Lampu Check Engine", "AC/Pendingin Udara", "Pedal Gas, Rem, dan Kopling",
+                    "Lampu Depan", "Lampu Kota", "Lampu Rem", "Lampu Sein", "Klakson", "Wiper", "Kondisi Sabuk Pengaman"
                 ],
                 "Status": [
                     stnk, sim, asuransi, surat_jalan,
                     ban_cadangan, kotak_p3k, segitiga,
-                    oli, toolkit
+                    oli, toolkit,
+                    radiator, air_wiper, check_engine, ac, pedal,
+                    lampu_depan, lampu_kota, lampu_rem, lampu_sein, klakson, wiper, sabuk_pengaman
                 ]
             }
             df = pd.DataFrame(data_detail)
