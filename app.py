@@ -446,7 +446,7 @@ if submitted:
         st.session_state.tanggal = tanggal
 
         # Konfigurasi API Google Sheet
-        url = "https://v1.nocodeapi.com/ranti123/google_sheets/YsShtvKdiSgBnXDb"
+        url = "https://v1.nocodeapi.com/ranti123/google_sheets/YsShtvKdiSgBnXDb?tabId=Sheet1"
         params = {"tabId": "Sheet1"}
         data_kirim = [[
             datetime.now().strftime('%Y-%m-%d %H:%M:%S'),  # Timestamp
