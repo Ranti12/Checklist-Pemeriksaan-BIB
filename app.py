@@ -447,41 +447,51 @@ if submitted:
 
         # Konfigurasi API Google Sheet
         url = "https://v1.nocodeapi.com/ranti123/google_sheets/YsShtvKdiSgBnXDb"
-
-        # Parameter: nama sheet (biasanya "Sheet1")
         params = {"tabId": "Sheet1"}
-
-        # Siapkan data dalam format LIST
         data_kirim = [[
-            datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-            nama,
-            tanggal.strftime('%Y-%m-%d'),
-            stnk,
-            sim,
-            asuransi,
-            surat_jalan,
-            ban_cadangan,
-            kotak_p3k,
-            segitiga,
-            oli,
-            toolkit,
-            radiator,
-            air_wiper,
-            check_engine,
-            ac,
-            pedal,
-            lampu_depan,
-            lampu_kota,
-            lampu_rem,
-            lampu_sein,
-            klakson,
-            wiper,
-            sabuk_pengaman,
-            'LAYAK JALAN' if item_baik == total_item else 'TIDAK LAYAK JALAN'
+            datetime.now().strftime('%Y-%m-%d %H:%M:%S'),  # Timestamp
+            nama,                                           # Nama Pemeriksa
+            tanggal.strftime('%Y-%m-%d'),                   # Tanggal
+            stnk,                                           # STNK
+            sim,                                            # SIM
+            asuransi,                                       # Asuransi
+            surat_jalan,                                    # Surat Jalan
+            ban_cadangan,                                   # Ban Cadangan
+            kotak_p3k,                                      # Kotak P3K
+            segitiga,                                       # Segitiga
+            oli,                                            # Oli
+            toolkit,                                        # Toolkit
+            radiator,                                       # Radiator
+            air_wiper,                                      # Air Wiper
+            check_engine,                                   # Check Engine
+            ac,                                             # AC
+            pedal,                                          # Pedal
+            lampu_depan,                                    # Lampu Depan
+            lampu_kota,                                     # Lampu Kota
+            lampu_rem,                                      # Lampu Rem
+            lampu_sein,                                     # Lampu Sein
+            klakson,                                        # Klakson
+            wiper,                                          # Wiper
+            sabuk_pengaman,                                 # Sabuk Pengaman
+            'LAYAK JALAN' if item_baik == total_item else 'TIDAK LAYAK JALAN'  # Status
         ]]
 
         # Kirim data
-        response = requests.post(url=url, params=params, json=data_kirim)
+        try:
+            response = requests.post(url=url, params=params, json=data_kirim)
+
+            # Cek response
+            if response.status_code == 200:
+                st.success("✅ Data berhasil disimpan ke Google Sheets!")
+
+                with st.expander("Detail Response API"):
+                    st.json(response.json())
+            else:
+                st.error(f"Gagal menyimpan: {response.status_code}")
+                st.write(response.text)
+
+        except Exception as e:
+            st.error(f"Error koneksi: {e}")
 
         # Tampilkan hasil
         st.markdown("---")
